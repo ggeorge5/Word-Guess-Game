@@ -1,37 +1,57 @@
-var wins = 0;
-var lettersGuessed = [];
-const totalNumGuesses = 12;
-var winningWords = ['Baseball' , 'football' , 'basektball' , 'soccer'];
-var underScore = [];
+const words = ['string', 'method', 'function', 'variable', 'constant', 'array'];
 
-function refreshUI (){
-    document.getElementById('wins').innerHTML = wins;
-    document.getElementById('guesses-left').innerHTML = totalNumGuesses - lettersGuessed.length;
-    document.getElementById('letters').innerHTML = lettersGuessed.join('');
-}
+let randNum = Math.floor(Math.random() * words.length);
+let guesses = 12;
+let choosenWord = words[randNum];
+let underScore = []; 
+let rightWord = [];
+let wrongWord = [];
 
-function chooseWinningWord () {
-    var randWord = winningWords[Math.floor(Math.random() * winningWords.length)];
-    console.log(randWord);
-};
+// Dom Manipulation
 
-function generateUnderscore () {
-    for (var i = 0; i < winningWords.length; i++) {
+let docUnderScore = document.getElementsByClassName('underscore');
+
+
+
+console.log(choosenWord);
+
+
+function generateUnderscore() {
+    for(let i=0; i < choosenWord.length; i++) {
         underScore.push('_');
     }
     return underScore;
-}
+};
 
-console.log(generateUnderscore());
-refreshUI();
-chooseWinningWord();
+generateUnderscore();
 
+document.addEventListener("keypress", function (event) {
+    let keyword = String.fromCharCode(event.keyCode);
+    if (choosenWord.indexOf(keyword) > -1) { 
 
-document.addEventListener('keypress', function (event) {
-    let keycode = event.keyCode;
-    let keyword = String.fromCharCode(keycode);
-    if (randWord.indexOf(keyword) > - 1){
-        console.log(true);
-    }    
-    refreshUI();
+        rightWord.push(keyword);
+        
+        
+
+        underScore[choosenWord.indexOf(keyword)] = keyword;
+
+        if(underScore.join('') == choosenWord) {
+            alert('You Win');
+        }
+        }
+
+    else {
+        
+        wrongWord.push(keyword);
+        }
+        
+
+    
+    docUnderScore[0].innerHTML = generateUnderscore().join(' ');    
+
+   
+
 });
+
+
+
